@@ -53,6 +53,12 @@ window.sparouter = (function() {
 
 
 window.onload = function() {
+    console.log(document.location);
+    var pages = window.document.querySelectorAll("div[data-page]");
+    if (pages.length > 0) {
+        var hash = pages[0].getAttribute("data-page");
+        history.pushState({}, "start", "#" + hash);
+    }
 
     sparouter("#oldurl", "#newurl").removeUrlFromHistory().handle(function() {
         console.log("here we go!");
