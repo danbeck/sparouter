@@ -20,29 +20,23 @@ window.sparouter = (function() {
 
     var sparouter = function(oldurl, newurl) {
         if (!sparouter.initialized) {
+            window.onpopstate = function(event) {
+                console.log("onpopstate: ", +document.location + ", state: " + JSON.stringify(event.state));
+            };
+            window.onhashchange = function(event) {
+                console.log("onhashchange: ", +document.location + ", hash:" + document.location.hash +
+                        ", oldurl:" + event.oldURL + ", newurl:" + event.newURL + ", state: " + JSON.stringify(event.state));
+                var hash = document.location.hash;
+                makeAllPagesInvisible();
+                var newPage = window.document.querySelector("div[data-page=" + hash.substring(1) + "]");
+                newPage.style.display = "block";
+            };
             sparouter.initialized = true;
 
             makeAllPagesInvisible();
             window.document.querySelectorAll("div[data-page]")[0].style.display = "block";
-
-            registerClickHandler();
         }
 
-        function registerClickHandler() {
-            var selectedAHrefs = window.document.querySelectorAll("a[href^='#']");
-            for (var j = 0; j < selectedAHrefs.length; j++) {
-                console.log("add Event handler");
-                selectedAHrefs[j].addEventListener("click", function(e) {
-                    var url = this.getAttribute("href");
-                    console.log("clicked on " + url);
-                    makeAllPagesInvisible();
-                    url = url.substring(1);
-                    var newPage = window.document.querySelector("div[data-page=" + url + "]");
-                    newPage.style.display = "block";
-
-                });
-            }
-        }
 
         function makeAllPagesInvisible() {
             var datapages = window.document.querySelectorAll("div[data-page]");
@@ -59,9 +53,6 @@ window.sparouter = (function() {
 
 
 window.onload = function() {
-
-    sparouter(document);
-
 
     sparouter("#oldurl", "#newurl").removeUrlFromHistory().handle(function() {
         console.log("here we go!");
