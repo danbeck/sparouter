@@ -26,7 +26,22 @@ window.sparouter = (function() {
             for (var i = 1; i < datapages.length; i++) {
                 datapages[i].style.display = "none";
             }
-            ;
+            for (var j = 0; j < selectedAHrefs.length; j++) {
+                console.log("add Event handler");
+                selectedAHrefs[j].addEventListener("click", function(e) {
+                    var url = this.getAttribute("href");
+                    console.log("clicked on " + url);
+                    e.preventDefault();
+                    url = url.substring(1);
+                    for (var i = 0; i < datapages.length; i++) {
+                        datapages[i].style.display = "none";
+                    }
+
+                    var newPage = window.document.querySelector("div[data-page=" + url + "]");
+                    newPage.style.display = "block";
+
+                });
+            }
 
             console.dir(selectedAHrefs);
             console.dir(datapages);
@@ -47,7 +62,7 @@ window.onload = function() {
         console.log("here we go!");
     });
 
-    console.dir(sparouter);
+//   console.dir(sparouter);
 };
 
 
