@@ -32,11 +32,21 @@ window.sparouter = (function() {
                 newPage.style.display = "block";
             };
             sparouter.initialized = true;
-
+            handleBackLinks();
+            
             makeAllPagesInvisible();
             window.document.querySelectorAll("div[data-page]")[0].style.display = "block";
         }
 
+        function handleBackLinks(){
+            var backbuttons = window.document.querySelectorAll("a[href='#back']");
+            for(var i =0; i< backbuttons.length; i++){
+                backbuttons[i].addEventListener("click", function(e){
+                    e.preventDefault();
+                    history.back();
+                });
+            }
+        }
 
         function makeAllPagesInvisible() {
             var datapages = window.document.querySelectorAll("div[data-page]");
