@@ -32,16 +32,39 @@ window.sparouter = (function() {
                 newPage.style.display = "block";
             };
             sparouter.initialized = true;
+            handleLinks();
             handleBackLinks();
-            
+
             makeAllPagesInvisible();
             window.document.querySelectorAll("div[data-page]")[0].style.display = "block";
         }
 
-        function handleBackLinks(){
+        function handleLinks() {
+            var aLinks = window.document.querySelectorAll("a[href^='#']");
+            for (var i = 0; i < aLinks.length; i++) {
+                aLinks[i].addEventListener("click", function(e) {
+                    var currentLink = this;
+                    e.preventDefault();
+                    var hash = currentLink.getAttribute("href");
+                    if (currentLink.getAttribute("data-option") === "removeFromHistory") {
+//                        console.log("follow link " + hash + "but remove actual entry " + window.location.hash + "from history");
+//                        history.replaceState({}, "hashurl", hash);
+//                        window.location.hash = hash;
+//                        history.back();
+                        window.location.replace(hash);
+                    }
+                    else {
+                        console.log("follows link " + hash);
+                        window.location.hash = hash;
+                    }
+//                    history.back()    ;
+                });
+            }
+        }
+        function handleBackLinks() {
             var backbuttons = window.document.querySelectorAll("a[href='#back']");
-            for(var i =0; i< backbuttons.length; i++){
-                backbuttons[i].addEventListener("click", function(e){
+            for (var i = 0; i < backbuttons.length; i++) {
+                backbuttons[i].addEventListener("click", function(e) {
                     e.preventDefault();
                     history.back();
                 });
