@@ -47,17 +47,13 @@ window.sparouter = (function() {
                     e.preventDefault();
                     var hash = currentLink.getAttribute("href");
                     if (currentLink.getAttribute("data-option") === "removeFromHistory") {
-//                        console.log("follow link " + hash + "but remove actual entry " + window.location.hash + "from history");
-//                        history.replaceState({}, "hashurl", hash);
-//                        window.location.hash = hash;
-//                        history.back();
                         window.location.replace(hash);
+//                    history.back();
                     }
                     else {
                         console.log("follows link " + hash);
                         window.location.hash = hash;
                     }
-//                    history.back()    ;
                 });
             }
         }
@@ -96,12 +92,4 @@ window.onload = function() {
     sparouter("#oldurl", "#newurl").removeUrlFromHistory().handle(function() {
         console.log("here we go!");
     });
-
-//   console.dir(sparouter);
 };
-
-
-// sparouter("newpage").handle(function(){})
-//
-//
-//
